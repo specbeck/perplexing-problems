@@ -1,13 +1,47 @@
 import random
 
 def main():
-    primes = get_primes(100)
-    alice, bob = generate_random_seed(100)
+    n = int(input("How many times do you need to perform the experiment? "))
 
-    print(f"{alice} and {bob} has prime factors == {check_factors(alice, bob, primes)}")
+    alice, bob = count_wins(n)
+    calculate_probabilities(alice, bob, n)
+
+
+def calculate_probabilities(a: int, b: int, ss: int):
+    """
+    Calculates probabilities of winning based on the number of wins and the sample space
+    """
+    alice = (a/ss) * 100
+    bob = (b/ss) * 100
+
+    print(f"The probability of alice winning is {alice}% and bob winning is {bob}%")
+
+def experiment_outcome(range: int) -> bool:
+    """
+    Performs the experiment on the range supplied, returns a boolean for prime factor
+    """
+
+    primes = get_primes(range)
+    alice, bob = generate_random_seed(range)
+
+    #print(f"{alice} and {bob} has prime factors == {check_factors(alice, bob, primes)}")
+    return check_factors(alice, bob, primes)
 
     
+def count_wins(iters: int) -> tuple[int, int]:
+    """
+    Counts wins for the number of iters supplied
+    
+    Returns a tuple with wins as (Alice, Bob)
+    """
+    alice_wins = 0
+    for _ in range(iters):
+        if experiment_outcome(100): # hardcodes the range here
+            alice_wins += 1
+    
+    bob_wins = iters - alice_wins # Whenever alice loses, bob wins
 
+    return alice_wins, bob_wins
 
 
 def check_factors(n1: int, n2: int, factors: list[int]) -> bool:
