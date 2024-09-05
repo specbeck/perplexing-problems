@@ -1,10 +1,16 @@
 import random
+import time
 
 def main():
+
+    start_time = time.time()
+
     n = int(input("How many times do you need to perform the experiment? "))
 
     alice, bob = count_wins(n)
     calculate_probabilities(alice, bob, n)
+    
+    print(f"Time taken for program: {time.time() - start_time}")
 
 
 def calculate_probabilities(a: int, b: int, ss: int):
