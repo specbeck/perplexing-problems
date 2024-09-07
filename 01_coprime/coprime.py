@@ -20,7 +20,8 @@ def calculate_probabilities(a: int, b: int, ss: int):
     alice = (a/ss) * 100
     bob = (b/ss) * 100
 
-    print(f"The probability of alice winning is {alice}% and bob winning is {bob}%")
+    print(f"The probability of alice winning is {alice:.2f}% and bob winning is {bob:.2f}%")
+
 
 def experiment_outcome(range: int) -> bool:
     """
@@ -60,6 +61,7 @@ def check_factors(n1: int, n2: int, factors: list[int]) -> bool:
                 return True
     else:
         return False
+
 
 def generate_random_seed(range: int) -> tuple[int, int]:
     """
