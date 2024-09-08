@@ -8,12 +8,21 @@ def main():
     n = int(input("How many times do you need to perform the experiment? "))
 
     alice, bob = count_wins(n)
-    calculate_probabilities(alice, bob, n)
+    ap, bp = calculate_probabilities(alice, bob, n)
     
     print(f"Time taken for program: {time.time() - start_time}")
 
 
-def calculate_probabilities(a: int, b: int, ss: int):
+def write_to_csv(alice: int, bob: int, awin: bool, bwin: bool):
+    """
+    Writes results supplied to a file
+    """
+    with open("results.csv", 'w') as file:
+        file.write(f"{alice},{bob},{awin},{bwin}")
+
+
+
+def calculate_probabilities(a: int, b: int, ss: int) -> tuple[float, float]:
     """
     Calculates probabilities of winning based on the number of wins and the sample space
     """
@@ -21,6 +30,7 @@ def calculate_probabilities(a: int, b: int, ss: int):
     bob = (b/ss) * 100
 
     print(f"The probability of alice winning is {alice:.2f}% and bob winning is {bob:.2f}%")
+    return (round(alice, 2), round(bob, 2))
 
 
 def experiment_outcome(range: int) -> bool:
@@ -32,7 +42,9 @@ def experiment_outcome(range: int) -> bool:
     alice, bob = generate_random_seed(range)
 
     #print(f"{alice} and {bob} has prime factors == {check_factors(alice, bob, primes)}")
-    return check_factors(alice, bob, primes)
+    result = check_factors(alice, bob, primes)
+    write_to_csv(alice, bob, result, ~result)
+    return result
 
     
 def count_wins(iters: int) -> tuple[int, int]:
